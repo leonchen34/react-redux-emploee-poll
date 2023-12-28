@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {connect} from "react-redux";
-import {useLocation,useParams} from "react-router-dom";
+import {useLocation,useParams,Navigate} from "react-router-dom";
 import Nav from "./Nav";
 import {handleUpdateUserAnswer} from "../actions/shared";
 import InvalidRoute from "./InvalidRoute";
@@ -15,16 +15,13 @@ const Question = ({dispatch,users,questions}) => {
     //console.log("params:",param);
     const {qid} = param;
     const question = questions[qid];
-    let valid = true;
-    
+    //console.log("qid:",qid);
     //const {user,done} = location.state;
     const user = location.state ? location.state.user : null;
     const done = location.state ? location.state.done : null;
-    if (!question || user === null)
-        valid = false;
 
     let first = true;
-    if (valid && question)
+    if (user && question)
         first = question.optionOne.votes.includes(user.id) ? true : false;
     const numPeople = Object.keys(users).length;
     const answered = done ? true : false;
@@ -40,14 +37,9 @@ const Question = ({dispatch,users,questions}) => {
             setSelectedTwo(true);
     }
 
-    return (
-        <div> 
-            {valid ? (<div>
-            <Nav user={user}/>
-            <h3>Poll by {question.author}</h3>
-            <img src={findAvatar(question.author)} alt={`Avatar of ${question.author}`} className="avatar"/>
-            {!answered ? 
-            (<div>
+    const NewQuestion = () => {
+        return (
+            <div>
                 <h3>Would You Rather</h3>
                 <ul className="option-list">
                     <li key="option1"><h3>Option1</h3><p>{question.optionOne.text}</p> 
@@ -59,8 +51,13 @@ const Question = ({dispatch,users,questions}) => {
                         {selectedTwo ?  <img alt="selected" src={selected} /> : " "}
                     </li>
                 </ul>
-            </div>) : 
-            (<ul className="option-list">               
+            </div>             
+        )
+    }
+
+    const DoneQuestion = () => {
+        return (
+            <ul className="option-list">               
                 <li key="option1">
                     <h3>Option1</h3>
                     <p>{question.optionOne.text}</p> 
@@ -75,11 +72,29 @@ const Question = ({dispatch,users,questions}) => {
                     <p>Percentage Voted: {(question.optionTwo.votes.length/numPeople)*100}%</p>
                     {!first ? <img alt="selected" src={selected} /> : " "}
                 </li>               
-            </ul>) 
-        }
-        </div>) : <InvalidRoute /> }
-        </div>
+            </ul>            
+        )
+    }
 
+    return (
+        <div> 
+            {user ? 
+                (<div>
+                    {question ? 
+                        <div>
+                            <Nav user={user}/>
+                            <h3>Poll by {question.author}</h3>
+                            <img src={findAvatar(question.author)} 
+                                 alt={`Avatar of ${question.author}`} 
+                                 className="avatar"/>
+                            {answered ? <DoneQuestion /> : <NewQuestion /> }
+                        </div> : 
+                        <InvalidRoute /> 
+                    }
+                </div>) : 
+                <Navigate to='/' replace state={{path: location.pathname}}/>
+            }
+        </div>
     )
 }
 

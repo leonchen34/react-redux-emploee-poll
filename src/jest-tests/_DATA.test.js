@@ -12,7 +12,7 @@ describe('_saveQuestion', () => {
 });
 
 describe('_saveQuestionAnswer', () => {
-    it('reject if any of the import is empty', async() => {
+    it('reject if any of the input is empty', async() => {
         await expect(_saveQuestionAnswer("","qid","optionOne")).rejects.
             toEqual('Please provide authedUser, qid, and answer');
         await expect(_saveQuestionAnswer("sarahedo","","optionOne")).rejects.

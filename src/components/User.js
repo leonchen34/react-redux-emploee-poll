@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import { useParams} from "react-router-dom";
 import Nav from "./Nav";
 import QuestionList from "./QuestionList";
-import InvalidRoute from "./InvalidRoute";
+//import InvalidRoute from "./InvalidRoute";
+import LogIn from "./LogIn";
 
 const User = ({users,questions,authedUser}) => {
     const [newList,setNewList] = useState([]);
@@ -41,7 +42,7 @@ const User = ({users,questions,authedUser}) => {
                     <Nav user={user}/>
                     <QuestionList newList={newList} doneList={doneList} user={user} /> 
                 </div>) :
-                <InvalidRoute /> 
+                <LogIn /> 
             }
         </div>
     )

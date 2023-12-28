@@ -1,5 +1,5 @@
 import {useState,useEffect} from "react";
-import {useLocation,useNavigate} from "react-router-dom";
+import {useLocation,Navigate} from "react-router-dom";
 import {connect} from "react-redux";
 import Nav from "./Nav";
 import { findAvatar } from "../utils/helper";
@@ -8,11 +8,13 @@ const Leaderboard = ({users}) => {
     const location = useLocation();
     const user = location.state ? location.state.user : null;
     const[userStat,setUserStat] = useState([]);
-    const invalid = (Object.keys(users).length === 0 || !user) ? true : false;
-    let navigate = useNavigate();
+    //const invalid = (Object.keys(users).length === 0 || !user) ? true : false;
+    const invalid = (user) ? false : true;  
+    //let navigate = useNavigate();
         
     useEffect(() => {
-        if (invalid) navigate("/invalid-leaderboard");
+        if (invalid) 
+            return ;
         let list = [];
         Object.values(users).forEach((value) => {
             let id = value.id;
@@ -25,13 +27,14 @@ const Leaderboard = ({users}) => {
         list.sort((a,b) => (b.answerCount+b.createCount) - (a.answerCount + a.createCount));
         //console.log(list);
         setUserStat(list);
-      }, [users,invalid,navigate]);
+      }, [users,invalid]);
     
     //console.log(userStat);
     //console.log(user);
     return (
         <div>
-        { invalid ? "" : (<div>
+        { invalid ? <Navigate to="/" replace state={{ path: location.pathname}} /> : 
+            (<div>
             <Nav user={user} />
             <table className="userStat">
                 <thead><tr>
@@ -54,7 +57,6 @@ const Leaderboard = ({users}) => {
                                 <td>{e.createCount}</td>
                             </tr>
                         )
-
                     })
                 }
                 </tbody>

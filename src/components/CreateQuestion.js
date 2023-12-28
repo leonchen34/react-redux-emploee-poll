@@ -1,6 +1,6 @@
-import {useEffect} from "react";
+//import {useEffect} from "react";
 import serializeForm from "form-serialize";
-import {useLocation,useNavigate} from "react-router-dom";
+import {useLocation,useNavigate,Navigate} from "react-router-dom";
 import {connect} from "react-redux";
 import {handleAddQuestion} from "../actions/questions";
 
@@ -11,11 +11,6 @@ const CreateQuestion = ({dispatch}) => {
     const user = location.state ? location.state.user : null;
     const invalid = (!user) ? true : false;
     let navigate = useNavigate();
-
-    useEffect(() => {
-        if (invalid)
-            navigate("/invalid-create");
-    },[invalid,navigate]);
         
     const handleSubmit = (e) => {
         e.preventDefault();    
@@ -37,7 +32,7 @@ const CreateQuestion = ({dispatch}) => {
     }
 
     return (
-        <div> {invalid ? "" : (<div>
+        <div> {invalid ? <Navigate to="/" replace state={{ path: location.pathname}} /> : (<div>
             <Nav user={user} />
             <h2>Would You Rather</h2>
             <h3>create your own poll</h3>

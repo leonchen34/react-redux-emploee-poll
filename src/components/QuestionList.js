@@ -1,15 +1,21 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const QuestionList = ({newList,doneList,user}) => {
-    //console.log("newList:",newList);
-    //console.log("doneList:",doneList);
-    //console.log("user:",user);
-    return(
-        <div className="question-box">
-        <h3>New Questions</h3>
-        <ul className="question-list">
-            {
-                newList.map((q) => {
+    const [newq,setNewQ] = useState(true);
+
+    function handleSelect(e) {
+        e.preventDefault();
+        if (e.target.value === "new")
+            setNewQ(true);
+        else if (e.target.value === "done")
+            setNewQ(false);
+    }
+
+    const NewqList = ({list}) => {
+        return (
+            <ul className="question-list">{
+                list.map((q) => {
                     const url=`/questions/${q.id}`;
                     const timestamp = new Date(q.timestamp).toLocaleString();
                     return (            
@@ -23,11 +29,15 @@ const QuestionList = ({newList,doneList,user}) => {
                             </div>
                         </li>
                     )
-                }) }
-        </ul>        
-        <h3>Done</h3>
-        <ul className="question-list">{
-                doneList.map((q) => {
+                })
+            }</ul>
+        )
+    }
+
+    const DoneList = ({list}) => {
+        return (
+            <ul className="question-list">{
+                list.map((q) => {
                     const url=`/questions/${q.id}`;
                     const timestamp = new Date(q.timestamp).toLocaleString();
                     const done = true;
@@ -41,8 +51,19 @@ const QuestionList = ({newList,doneList,user}) => {
                         </li>      
                     )
                 })
-        }</ul>    
-    </div>)
+            }</ul>  
+        )           
+    }
+
+    return(
+        <div className="question-box">
+            <h1><select onChange={handleSelect}>
+                <option value="new" key="new">New Questions</option>
+                <option value="done" key="done">Done</option>
+            </select></h1>
+            { newq ? <NewqList list={newList} /> : <DoneList list={doneList} /> }
+        </div>
+    )
 }
 
 export default QuestionList;

@@ -1,33 +1,39 @@
 import {useState} from "react";
 //import serializeForm from "form-serialize";
 import {connect} from "react-redux";
-import {useNavigate} from "react-router-dom";
+//import {useNavigate} from "react-router-dom";
+import {useLocation,useNavigate,Navigate} from "react-router-dom";
 import { setAuthedUser } from "../actions/authedUser";
 
 const LogIn = ({dispatch,users}) => {
     const [error,setError] = useState(false);
     const [userError,setUserError] = useState(false);
     const [passwordError,setPasswordError] = useState(false);
-    const [user,setUser] = useState("");
+    const [logUser,setLogUser] = useState("");
     const [password,setPassword] = useState("");
+    const [user,setUser] = useState(null);
 
     let navigate = useNavigate();
+    const location = useLocation();
+    const urlPath = location.state ? location.state.path : null;
+    //console.log(urlPath);
 
     const handleSubmit = (e) => {
         e.preventDefault();    
         //const values = serializeForm(e.target,{ hash: true}); 
         //const user = values.user;
         //const password = values.password;
-        //console.log("user:",user);
-        //console.log("password:",password);
-        if (user || password) {
+        if (logUser || password) {
             //console.log(`user:${user},passwd:${password}`);
-            const userObj = users[user];
+            const userObj = users[logUser];
             if (userObj) {
                 if (password === userObj.password) {
                     //console.log("found user:",user);
                     dispatch(setAuthedUser(userObj.id));
-                    navigate(`/users/${userObj.id}`);
+                    if (urlPath) {
+                        setUser(userObj);
+                    } else
+                        navigate(`/users/${userObj.id}`);
                 } else {
                     setUserError(false);
                     setError(false);
@@ -49,7 +55,7 @@ const LogIn = ({dispatch,users}) => {
 
     const handleUser = (e) => {
         e.preventDefault();
-        setUser(e.target.value);
+        setLogUser(e.target.value);
     }
 
     const handlePassword = (e) => {
@@ -57,7 +63,9 @@ const LogIn = ({dispatch,users}) => {
         setPassword(e.target.value);
     }
 
-    return (
+    return ( 
+    <div>{ user ? 
+        <Navigate to={urlPath} replace state={{user}}/> : 
         <div>
             <h2>Log In</h2>
             {error &&
@@ -75,7 +83,7 @@ const LogIn = ({dispatch,users}) => {
                     <select
                         data-testid="user"
                         name="user"
-                        value={user}
+                        value={logUser}
                         onChange={handleUser}
                     >
                         <option value="" key="empty"></option>
@@ -99,7 +107,7 @@ const LogIn = ({dispatch,users}) => {
                 <h3><button>Submit</button></h3>             
             </form>
         </div>
-    );
+    }</div>)
 }
 
 const mapStateToProps = ({dispatch,users}) => ({
