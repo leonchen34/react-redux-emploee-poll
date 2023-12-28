@@ -10,6 +10,7 @@ import Leaderboard from "./Leaderboard";
 import CreateQuestion from "./CreateQuestion";
 import Question from "./Question";
 import InvalidRoute from "./InvalidRoute";
+import LogOut from "./LogOut";
 
 const App = (props) => {
   //console.log("inside App");
@@ -27,6 +28,7 @@ const App = (props) => {
             <Route exact path="/leaderboard" element={<Leaderboard />} />
             <Route exact path="/add" element={<CreateQuestion />} />
             <Route exact path="/questions/:qid" element={<Question />} />
+            <Route exact path="/logout" element={<LogOut />} />
             <Route path = "/*" element={<InvalidRoute />} />
         </Routes>  
       //)

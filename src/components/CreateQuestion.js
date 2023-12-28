@@ -38,9 +38,11 @@ const CreateQuestion = ({dispatch}) => {
             <h3>create your own poll</h3>
             <form className="login-form" onSubmit={handleSubmit}>
                 <h3>First Option</h3>
-                <input type="text" id="option1" name="option1" placeholder="Option One" />
+                <input type="text" id="option1" name="option1" placeholder="Option One" 
+                    minLength="2" maxLength="64" />
                 <h3>Second Option</h3>
-                <input type="text" id="option2" name="option2" placeholder="Option Two" />
+                <input type="text" id="option2" name="option2" placeholder="Option Two" 
+                    minLength="2" maxLength="64" />
                 <br /> <br />
                 <button>Submit</button>
             </form> 

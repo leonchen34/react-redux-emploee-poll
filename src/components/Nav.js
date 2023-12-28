@@ -26,7 +26,7 @@ const Nav = ({user}) => {
                     {user.id}
                 </li>
                 <li key="logout">
-                    <Link to="/"><u>logout</u></Link>
+                    <Link to="/logout"><u>logout</u></Link>
                 </li>           
             </ul>
             <hr />
