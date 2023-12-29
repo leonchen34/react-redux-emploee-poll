@@ -1,10 +1,13 @@
 import {useState} from "react";
 //import serializeForm from "form-serialize";
-import {connect} from "react-redux";
+//import {connect} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {useLocation,useNavigate,Navigate} from "react-router-dom";
 import { setAuthedUser } from "../actions/authedUser";
 
-const LogIn = ({dispatch,users}) => {
+const LogIn = () => {
+    const users = useSelector(state => state.users);
+    const dispatch = useDispatch();
     const [error,setError] = useState(false);
     const [userError,setUserError] = useState(false);
     const [passwordError,setPasswordError] = useState(false);
@@ -108,10 +111,12 @@ const LogIn = ({dispatch,users}) => {
         </div>
     }</div>)
 }
-
+/*
 const mapStateToProps = ({dispatch,users}) => ({
   dispatch,
   users,
   });
 
 export default connect(mapStateToProps)(LogIn);
+*/
+export default LogIn;

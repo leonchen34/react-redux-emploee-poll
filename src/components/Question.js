@@ -1,5 +1,6 @@
 import {useState} from "react";
-import {connect} from "react-redux";
+//import {connect} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {useLocation,useParams,Navigate} from "react-router-dom";
 import Nav from "./Nav";
 import {handleUpdateUserAnswer} from "../actions/shared";
@@ -7,7 +8,10 @@ import InvalidRoute from "./InvalidRoute";
 import { findAvatar } from "../utils/helper";
 import selected from "../avatars/selected-5-48.png";
 
-const Question = ({dispatch,users,questions}) => {
+const Question = () => {
+    const dispatch = useDispatch();
+    const users = useSelector(state => state.users);
+    const questions = useSelector(state => state.questions);
     const [selectedOne,setSelectedOne] = useState(false);
     const [selectedTwo,setSelectedTwo] = useState(false);
     const location = useLocation();
@@ -97,7 +101,7 @@ const Question = ({dispatch,users,questions}) => {
         </div>
     )
 }
-
+/*
 const mapStateToProps = ({dispatch,users,questions}) => {
     return {
         dispatch,
@@ -107,3 +111,5 @@ const mapStateToProps = ({dispatch,users,questions}) => {
 }
   
 export default connect(mapStateToProps)(Question);
+*/
+export default Question;

@@ -22,15 +22,19 @@ export function handleInitialData () {
 export function handleUpdateUserAnswer (uId,qId,answer) {
     //console.log("inside handleUpdateUserAnswer");
     //console.log(`${uId},${qId},${answer}`);
-    return (dispatch) => {
-        return saveQuestionAnswer(uId,qId,answer).then((resp) => {
-            //console.log("resp:",resp);
+    return async (dispatch) => {
+        try {
+            const resp = await saveQuestionAnswer(uId,qId,answer);
             const user = resp.user;
             const question = resp.question;
             //console.log("update user:",user);
             //console.log("update question:",question);           
             dispatch(updateUserAnswers(user));
             dispatch(updateQuestion(question));      
-        });
+            //possibly dispatch(actionOnSuccess);
+        } catch(error) {
+            console.error("Error in handleUpdateUserAnswer:",error);
+            //dispatch(actionOnError(error));
+        }
     }
 }

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import {Routes,Route} from "react-router-dom";
 //import LoadingBar from "react-redux-loading-bar";
 import { handleInitialData } from "../actions/shared";
@@ -12,11 +13,12 @@ import Question from "./Question";
 import InvalidRoute from "./InvalidRoute";
 import LogOut from "./LogOut";
 
-const App = (props) => {
+const App = () => {
   //console.log("inside App");
+  const dispatch = useDispatch();
   useEffect(() => {
-    props.dispatch(handleInitialData())
-  }, [props]);
+    dispatch(handleInitialData())
+  }, [dispatch]);
 
   //console.log("app props:",props);
   return (
@@ -37,7 +39,7 @@ const App = (props) => {
   );
 }
 
-
-export default connect()(App);
+//export default connect()(App);
+export default App;
 
 

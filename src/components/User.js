@@ -1,12 +1,16 @@
 import {useState, useEffect} from "react";
-import {connect} from "react-redux";
+//import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import { useParams} from "react-router-dom";
 import Nav from "./Nav";
 import QuestionList from "./QuestionList";
 //import InvalidRoute from "./InvalidRoute";
 import LogIn from "./LogIn";
 
-const User = ({users,questions,authedUser}) => {
+const User = () => {
+    const users = useSelector(state => state.users);
+    const questions = useSelector(state => state.questions);
+    const authedUser = useSelector(state => state.authedUser);
     const [newList,setNewList] = useState([]);
     const [doneList,setDoneList] = useState([]);
     
@@ -47,9 +51,12 @@ const User = ({users,questions,authedUser}) => {
         </div>
     )
 };
+/*
 const mapStateToProps = ({users, questions, authedUser}) => ({
     users,
     questions,
     authedUser,
 });
 export default connect(mapStateToProps)(User);
+*/
+export default User;

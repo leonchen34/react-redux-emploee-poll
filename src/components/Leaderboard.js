@@ -1,10 +1,12 @@
 import {useState,useEffect} from "react";
 import {useLocation,Navigate} from "react-router-dom";
-import {connect} from "react-redux";
+//import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import Nav from "./Nav";
 import { findAvatar } from "../utils/helper";
 
-const Leaderboard = ({users}) => {
+const Leaderboard = () => {
+    const users = useSelector(state => state.users);
     const location = useLocation();
     const user = location.state ? location.state.user : null;
     const[userStat,setUserStat] = useState([]);
@@ -65,7 +67,7 @@ const Leaderboard = ({users}) => {
         </div>
     )
 }
-
+/*
 const mapStateToProps = ({users}) => {
     return {
         users,
@@ -73,3 +75,5 @@ const mapStateToProps = ({users}) => {
 }
   
 export default connect(mapStateToProps)(Leaderboard);
+*/
+export default Leaderboard;

@@ -1,12 +1,14 @@
 //import {useEffect} from "react";
 import serializeForm from "form-serialize";
 import {useLocation,useNavigate,Navigate} from "react-router-dom";
-import {connect} from "react-redux";
+//import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import {handleAddQuestion} from "../actions/questions";
 
 import Nav from "./Nav";
 
-const CreateQuestion = ({dispatch}) => {
+const CreateQuestion = () => {
+    const dispatch = useDispatch();
     const location = useLocation();
     const user = location.state ? location.state.user : null;
     const invalid = (!user) ? true : false;
@@ -51,4 +53,5 @@ const CreateQuestion = ({dispatch}) => {
     )
 }
 
-export default connect()(CreateQuestion);
+//export default connect()(CreateQuestion);
+export default CreateQuestion;
